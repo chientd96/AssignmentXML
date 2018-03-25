@@ -38,7 +38,9 @@ public class ConnectXML {
                 description = item.select("div.trailer-image a img");
                 nameItem = item.select("div.trailer-caption a");
                 urlItem = item.select("div.trailer-caption a");
-                list.add(new Film(nameItem.text(),urlItem.attr("href").substring(7, 16),urlItem.attr("href").substring(22), imageItem.attr("loadlate"), description.attr("title")));
+                Document document1 = (Document) Jsoup.connect("https://www.imdb.com/title/"+ urlItem.attr("href").substring(7, 16) + "?ref_="+ urlItem.attr("href").substring(22)).get();
+                Elements type = document.select("div.title-overview div.title_wrapper div.subtext span[class=itemprop]");
+                list.add(new Film(nameItem.text(),urlItem.attr("href").substring(7, 16),urlItem.attr("href").substring(22), imageItem.attr("loadlate"), description.attr("title"),type.text()));
             }
         } catch (IOException ex) {
             Logger.getLogger(ConnectXML.class.getName()).log(Level.SEVERE, null, ex);
